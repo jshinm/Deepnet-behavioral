@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<br><br><br><br>
+<center>
+<table id="test1" width=100%>
+<tr>
+  <td width=33%>
+    <!-- Left Side -->    
+    <!-- <table><tr><td>
+      ADMIN ONLY<br>
+      {% if inside == 0 %}
+        <img src="data:image/png;base64,{{imagen_5.imagen_5}}"><br><br>
+      {% else %}
+        <img src="data:image/png;base64,{{imagen_5_cir.imagen_5_cir}}">
+      {% endif %}
+      <form>
+        <label id="inlabel"></label><br><br>
+        <input type="button" value="Square" onclick="click_square()">
+        <input type="button" value="Circle" onclick="click_circle()">
+      </form>     
+    </td></tr></table>    -->
+  </td>
+
+  <td width=33%>
+<font size=5>{{trial}} OF {{hit}}</font><br>
+<img src="data:image/png;base64,{{imagen.imagen}}"><br>
+<!-- {{ user }}<br> -->
+Please rate your confidence<br>
+(<font color='purple'>Purple</font> = 1, <font color='green'>Green</font> = 0)<br>
+<form action='/test', method='POST' onsubmit="disable()">
+  <input oninput="rangeFunction()" type="range" min="0.00" max="100.0" class="sliders" id="myRange">
+  <input type="hidden" id="hidden" name="est"> 
+  <input type="hidden" value={{trial}} name="trial">
+  <input type="hidden" value={{hit}} name="hit">
+  <input type="hidden" value={{user}} name="user">
+  <input type="hidden" value={{real}} name="real">
+  <input type="hidden" value={{pick}} name="pick">
+  <input type="hidden" value={{mtype}} name="mtype">
+  <input type="hidden" value={{X}} name="X">
+  <label id="result"></label><br>
+  <!-- <input type="submit" value="Lock" id="lock" onclick="enable()"> -->
+  <!-- <input type="submit" value="Submit" id="submit" disabled> -->
+  <input type="hidden" value={{sampleN}} id="sampleN" name="sampleN">
+  <input type="hidden" id="inside" value={{inside}} name="inside">
+
+  <input type="submit" value="Submit" id="submit" enable>
+  
+</form>
+
+<br>
+<!-- <div class="myBar label-center"></div>
+<script>
+  var bar = new ldBar(".myBar", {
+  //  "stroke": '#f00',
+   "stroke-width": 10,
+  //  "preset": "fan",
+   "value": 0
+  });
+
+  bar.set(
+  100,     /* target value. */
+  true   /* enable animation. default is true */
+);
+</script> -->
+</td>
+
+<td width=33%><!-- Right Side -->
+  <table><tr><td>
+    ADMIN ONLY<br>
+    <img src="data:image/png;base64,{{imagen_admin.imagen_admin}}"><br>
+    {% if mtype == 0 %}Gaussian XOR
+    {% elif mtype == 1 %}Gaussian R-XOR
+    {% elif mtype == 2 %}Gaussian S-XOR
+    {% elif mtype == 3 %}Uniform XOR
+    {% elif mtype == 4 %}Spiral
+    {% endif %}
+    (mtype = {{mtype}})
+    
+    <br><br>
+    <table width=100%><tr>
+      <td width=35%>
+        <!-- <form action='/test', method="POST"><p>
+          <input type="checkbox" value=0 name="dset0">Gauss XOR<br>  
+          <input type="checkbox" value=1 name="dset1">Gauss R-XOR<br>  
+          <input type="checkbox" value=2 name="dset2">Gauss S-XOR<br>  
+          <input type="checkbox" value=3 name="dset3">Uniform XOR<br>  
+          <input type="checkbox" value=4 name="dset4">Sprial<br></p>
+        </form> -->
+      </td>
+      <td width=30%>
+        Sample size<br>
+
+        <form action='/test', method="POST">
+          <input oninput="textFunction()" type="text" value={{sampleN}} id="sampleN_text"><br>  
+        </form>
+    
+        <br>
+    
+        <form action='/'>
+          <input type="submit" value="Reset" id="next" onclick="disable()">
+        </form>
+      
+        <form action='/readbyDate'>
+          <input type="submit" value="Read DB" id="next">
+        </form>
+      </td>
+      <td width=35%></td>
+    </tr></table>
+
+  </td></tr></table>
+  
+</td>
+
+</tr>
+<tr><td colspan="3">
+  <table><tr><td>
+    ADMIN ONLY <br>
+    {% if mtype == 0 %}
+    <img src="{{ url_for('static', filename='post/2020-11-27_Gaussian XOR_figures.png') }}" id="bottom">
+    <img src="{{ url_for('static', filename='post/2020-11-27_Gaussian XOR_bar.png') }}" id="sidebottom">
+    {% elif mtype == 1 %}
+    <img src="{{ url_for('static', filename='post/2020-11-27_Gaussian R-XOR_figures.png') }}" id="bottom">
+    <img src="{{ url_for('static', filename='post/2020-11-27_Gaussian R-XOR_bar.png') }}" id="sidebottom">
+    {% elif mtype == 2 %} <!-- CHOSEN S-XOR -->
+    <img src="{{ url_for('static', filename='post/2020-11-27_Gaussian S-XOR_Cfigures.png') }}" id="bottom">
+    <img src="{{ url_for('static', filename='post/2020-11-27_Gaussian S-XOR_Cbar.png') }}" id="sidebottom">
+    {% elif mtype == 3 %}
+    <img src="{{ url_for('static', filename='post/2020-11-27_Uniform XOR_figures.png') }}" id="bottom">
+    <img src="{{ url_for('static', filename='post/2020-11-27_Uniform XOR_bar.png') }}" id="sidebottom">
+    {% elif mtype == 4 %} <!-- CHOSEN SPIRAL -->
+    <img src="{{ url_for('static', filename='post/2020-11-27_Spiral_Cfigures.png') }}" id="bottom">
+    <img src="{{ url_for('static', filename='post/2020-11-27_Spiral_Cbar.png') }}" id="sidebottom">
+    {% endif %}
+  </td></tr></table>
+
+</td></tr>
+
+</table>
+</center>
+
+{% endblock %}
+

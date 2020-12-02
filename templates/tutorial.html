@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<br><br><br><br><br><br><br><br>
+<center>
+<div class='div1'>
+    {% if stage == 0 %}
+    <p>The goal of this experiment is to assess human performance on predictive ability given certain
+    patterns. The participants are tasked to infer whether a point (<b>black</b>) belongs to the group of patterns shown (<font color="purple"><b>purple</b></font>).
+    The participants will provide their confidence by using the slider (0.0 - does not belong, 1.0 - belong)</p>
+    <img src="/static/tut/img1.png">
+    {% elif stage == 1 %}
+    <p>During the test, you will be given different partterns of dataset such as what you see below. In this example, you will immediately notice that
+    the test point (<b>black</b>) most likely does not belong to the pattern because the quadrant where the test point lies 
+    does not have any patterns (<b><font color="purple">purple</font></b>). Thus, you will respond your confidence using a slider to
+    indicate that your confidence is close to 0.0</p>    
+    <img src="/static/tut/img2.png">
+    {% elif stage == 2 %}
+    <p>On the other hand, if you have been given a test point (<b>black</b>) anywhere within the correct region of response (<b><font color="blue">blue</font></b>),
+    you will indicate that your confidence is close to 1.0.</p>
+    <img src="/static/tut/img3.png">
+    {% elif stage == 3 %}
+    <p>In more complex cases, you are expected to infer the shape of the pattern as well. Could you tell if the test point lies on the pattern?
+    </p>
+    <img src="/static/tut/img5.png">
+    {% elif stage == 4 %}
+    <p>If you guessed your confidence close to 1.0, you are correct. If you did not get this one, you need not be discouraged.</p>
+    <img src="/static/tut/img6.png">
+    {% elif stage == 5 %}
+    <p>In fact, for each question, there will be two different classes in the pattern. Therefore, you are
+    actually rating your confidence to measure whether a test point (<b>black</b>) belongs to a certain class or not. For our purpose, your task is to
+    predict if a test point (<b>black</b>) belongs to the <b><font color="purple">purple class</font></b>.
+    <table id="important"><tr><td>SUMMARY: IF YOU THINK A <font color="black"><b>TEST POINT</b></font> BELONGS TO THE <font color="purple"><b>PURPLE CLASS</b></font>
+    BRING YOUR CONFIDENCE TOWARDS <font color="red"><b>[1]</b></font>. LIKEWISE, IF YOU BELIEVE A <font color="black"><b>TEST POINT</b></font> BELONGS TO THE <font color="green"><b>GREEN CLASS</b></font>
+    LOWER YOUR CONFIDENCE TOWARDS <font color="red"><b>[0]</b></font>.</td></tr></table>
+    </p>
+    <img src="/static/tut/img7.png">
+    {% elif stage == 6 %}
+    <p>This concludes our tutorial, please respond to the best of your ability to answer each question. To begin your test, please click the button below to
+    go to the main page. Good luck!<br>
+    <table id="important"><tr><td><font color="red">IMPORTANT: WE CANNOT ACCEPT YOUR SUBMISSION IF IS 1. PARTIALLY COMPLETE 2. INGENUINE 3. ERRONEOUS. PLEASE DO NOT 
+        REFRESH YOUR PAGE OR TRY TO GO BACK TO THE PREVIOUS PAGE AT ALL TIME.</font></td></tr></table>
+    </p>
+    <br>
+    <div>
+        <form action='/', method='POST'>
+            <input type="hidden" value="1" name="t">
+            <input type="submit" value="Main Page" id="next">
+        </form>
+    </div>
+    {% endif %}
+    {% if stage == 0 %}
+    <div>
+        <form action='/tutorial', method='POST'>
+            Please rate your confidence<br>
+            <input oninput="rangeFunction()" type="range" min="0.00" max="100.0" class="sliders" id="myRange">
+            <input type="hidden" id="hidden" name="est"> 
+            <label id="result"></label><br>            
+            <input type="hidden" value={{stage}} name="stage">
+            <input type="submit" value="Next Page" id="next">
+        </form>
+    </div>
+    {% elif stage < 6 %}
+    <div>
+        <br>
+        <form action='/tutorial', method='POST'>
+            Please rate your confidence<br>
+            <input oninput="rangeFunction()" type="range" min="0.00" max="100.0" class="sliders" id="myRange">
+            <input type="hidden" id="hidden" name="est"> 
+            <label id="result"></label><br>
+            <input type="hidden" value={{stage}} name="stage" id="stage">
+            <input type="submit" value="Prev Page" onclick="prev()">
+            <input type="submit" value="Next Page">
+        </form>
+    </div>
+    {% endif %}
+</div>
+<br>
+
+</center>
+
+{% endblock %}

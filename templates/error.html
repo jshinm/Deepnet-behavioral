@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<br><br><br><br><br><br><br><br>
+<center>
+<table id=report>
+    <tr>
+        <th><a href="{{url_for('readbyID')}}">ID</a></th>
+        <th><a href="{{url_for('read')}}">USER</a></th>
+        <th>HIT</th>
+        <th>TRIAL</th>
+        <th>DATASET</th>
+        <th>PRED</th>
+        <th>TRUE</th>
+        <th>X COORDINATES</th>
+        <th>SAMPLE #</th>
+        <th><a href="{{url_for('readbyDate')}}">DATE</a></th>
+    </tr>
+    {% for task in tasks %}
+        <tr>
+            <td>{{ task.id }}</td>
+            <td>{{ task.user }}</td>
+            <td>{{ task.hit }}</td>
+            <td>{{ task.trial }}</td>
+            <td>{{ task.mtype }}</td>
+            <td>{{ task.est }}</td>
+            <td>{{ task.real }}</td>
+            <td>{{ task.x }}</td>
+            <td>{{ task.sampleN }}</td>
+            <td>{{ task.date_created }}</td>
+        </tr>
+    {% endfor %}
+
+<form action='/'>
+    <input type="submit" value="Main Page" id="next">
+</form>
+
+<form action="/download" enctype="multipart/form-data" method="post">
+    <a href="{{ url_for('downloadFile', filename='test.db') }}"><input type="submit" value="Download"></a>
+</form>
+
+<form action="/empty">
+    <input type="submit" value="Flush DB">
+</form>
+</center>
+
+{% endblock %}
