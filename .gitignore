@@ -1,7 +1,7 @@
-/bias_behavior
 /bias_web
 .vscode
 /share
 behavioral_test.ipynb
 styletest.html
 behavior.py
+requirements2.txt
