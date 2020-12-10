@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<br><br><br><br><br><br><br><br>
+<center>
+{% if t == 1 %}
+  <!-- Please preset how many responses you are willing to provide in the box below<br><br> -->
+  Please press button below to begin your task<br><br>
+
+  <form action="/test" method="POST" onsubmit="disable2()">
+    <!-- <input type="number" min="50" max="200" placeholder="valid values (50-200)" name="hit" style="width: 10%" required><br><br> -->
+    <input type="hidden" value={{user}} name="user">
+    <input type="hidden" value={{trial}} name="trial">
+    <input type="hidden" value={{real}} name="real">
+    <input type="hidden" value={{mtype}} name="mtype">
+    <input type="hidden" value={{X}} name="X">
+    <input type="hidden" value={{sampleN}} name="sampleN">
+    <input type="submit" value="Begin Test" id="beginTest">
+  </form>
+  <br><br><br><br>
+  Or you can review the tutorial again by pressing the button below<br><br>
+  <form action='/tutorial'>
+    <!-- <input type="hidden" value="True" id='t'> -->
+    <input type="submit" value="Review Tutorial">
+  </form>
+
+{% else %}
+  <div style="width: 30%">
+    Welcome to our exciting behavioral experiment tutorial.<br><br> Should you decide to take on this task, the test will be available to you immediately after the tutorial.
+    We greatly thank you for taking your valuable time to explore our experiment. We look forward to your participation.
+  </div>
+  <br>
+  <form action='/tutorial', method='POST'>    
+    <input type="hidden" value={{t}} name="t">
+    <input type="submit" value="Begin Tutorial">
+  </form>
+{% endif %}
+</center>
+{% endblock %}

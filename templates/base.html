@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <link rel='stylesheet' href="{{ url_for('static', filename='css/main.css') }}"> -->
+  <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/loading-bar.css') }}"/>
+  <script type="text/javascript" src="{{ url_for('static', filename='css/loading-bar.js') }}"></script> -->
+  <title>JHU Induced Bias Behavioral Experiment</title>
+  {% block head %}{% endblock %}
+  <style>
+      .sliders{
+        width: 300px; /* Full-width */
+      }
+
+      .bar1{
+        width: 20px;
+      }
+
+      p{
+        text-align:left;
+      }
+
+      .div1 {
+        width: 30%;
+        /* height: 100px; */
+        /* border: 1px solid blue; */
+      }
+
+    #report {
+      border: 0px solid #000000;
+      text-align: center;
+      border-collapse: collapse;
+      
+    }
+    #report td, th {
+      border: 1px solid #000000;
+      padding: 5px 4px;
+    }
+
+    #finished1{
+        border: 3px solid black;
+        border-collapse: collapse;
+    }
+
+    #important{
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    #test1
+    {
+      width:100%;
+      text-align:center; 
+    }
+
+    #controller
+    {
+      border: 1px solid #000000; /*dotted*/ 
+    }
+
+    #bottom
+    {
+      width:60%;
+      height:50%;
+    }
+
+    input[type=submit] {
+    height: 2em;
+    font-size: 20px;
+    }
+
+    body{
+      font-size: 25px;
+      /* vertical-align: middle;
+      margin:0 auto; */
+    }
+
+   /* SLIDER STYLING */
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .box-minmax {
+      margin-top: 20px;
+      width: 420px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 20px;
+      color: #000000;
+    }
+    .box-minmax span:first-child {
+      margin-left: 10px;
+    } 
+
+    /* .range-slider {
+      margin-top: 30vh;
+    } */
+
+    .rs-range {
+      margin-top: 29px;
+      width: 400px;
+      -webkit-appearance: none;
+    }
+    .rs-range:focus {
+      outline: none;
+    }
+    .rs-range::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 1px;
+      cursor: pointer;
+      box-shadow: none;
+      background: #000000;
+      border-radius: 0px;
+      border: 0px solid #010101;
+    }
+    .rs-range::-moz-range-track {
+      width: 100%;
+      height: 1px;
+      cursor: pointer;
+      box-shadow: none;
+      background: #000000;
+      border-radius: 0px;
+      border: 0px solid #010101;
+    }
+    .rs-range::-webkit-slider-thumb {
+      box-shadow: none;
+      border: 0px solid #000000;
+      box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25);
+      height: 42px;
+      width: 22px;
+      border-radius: 22px;
+      background: #0032c8;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -20px;
+    }
+    .rs-range::-moz-range-thumb {
+      box-shadow: none;
+      border: 0px solid #000000;
+      box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25);
+      height: 42px;
+      width: 22px;
+      border-radius: 22px;
+      background: black;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -20px;
+    }
+    .rs-range::-moz-focus-outer {
+      border: 0;
+    }
+
+    .rs-label {
+      position: relative;
+      transform-origin: center center;
+      display: block;
+      width: 68px;
+      height: 68px;
+      background: transparent;
+      border-radius: 50%;
+      line-height: 30px;
+      text-align: center;
+      font-weight: bold;
+      padding-top: 10px;
+      box-sizing: border-box;
+      border: 2px solid #000;
+      margin-top: 0px;
+      margin-left: -20px;
+      left: attr(value);
+      color: #000;
+      font-style: normal;
+      font-weight: normal;
+      line-height: normal;
+      font-size: 36px;
+    }
+    .rs-label::after {
+      display: block;
+      font-size: 20px;
+      letter-spacing: 0.0em;
+      margin-top: 0px;
+    }
+/* SLIDER STYLING END */
+  </style>
+
+  <script>
+
+    document.addEventListener('contextmenu', event => event.preventDefault()); //disable right click
+
+    function disable() {
+        document.getElementById("submit").disabled=true;   
+        document.getElementById("myRange").disabled=true;
+        // document.getElementById("submit").onanimationend.click()
+    }
+
+    function disable2() {
+        document.getElementById("beginTest").disabled=true;   
+    }
+
+    // Enable for lock and submit
+    // function enable() {
+    //     document.getElementById("myRange").disabled=true;
+    //     document.getElementById("lock").disabled=true;
+    //     document.getElementById("submit").disabled=false;
+    // }
+
+    // Enable for 5 panel view
+    function click_square() {
+        document.getElementById("inside").value=0;
+        document.getElementById("inlabel").innerHTML="<b>Square</b> Bounding Box will be shown on next submit"
+    }
+
+    function click_circle() {
+        document.getElementById("inside").value=1;
+        document.getElementById("inlabel").innerHTML="<b>Circle</b> Bounding Box will be shown on next submit"
+    }
+
+    function prev() {
+        document.getElementById("stage").value -= 2;
+    }
+
+    function checkanswer(){
+        var x = document.getElementById("myRange").value;
+        var a = document.getElementById("anskey").value;
+        if (x >= parseInt(a)-20 && x <= parseInt(a)+20) {}
+        else {window.alert("Sorry, please try again!");
+        document.getElementById("stage").value -= 1        
+    }
+  }
+
+    window.onload = function() {rangeFunction()}; //display default  range  value in #result
+  
+    // function rangeFunction() {
+    //     // var x = document.getElementById("myRange").value; //get current range value
+    //     // document.getElementById("hidden").value = x/100; // display current range value in #result
+    //     // document.getElementById("myRange").value = 0;
+    //     document.getElementById("hidden").value = 0;
+    //     // document.getElementById("result").innerHTML = x/100;
+    //     // document.getElementById("rs-bullet").innerHTML = x/100;
+    //     // var rangeBullet = document.getElementById("rs-bullet");
+    //     // rangeBullet.value = x/100;
+    // }
+
+    function textFunction() {
+      var N = document.getElementById("sampleN_text").value //get sample number from test.html
+      document.getElementById("sampleN").value = N //assign sample number value to hidden input under /test request
+
+    }
+
+    window.onload=function(){
+    
+    document.getElementById("hidden").value = 0;
+    var rangeSlider = document.getElementById("myRange");
+    var rangeBullet = document.getElementById("rs-bullet");
+
+    rangeSlider.addEventListener("input", showSliderValue);
+
+    function showSliderValue() {
+    rangeBullet.innerHTML = rangeSlider.value;
+    document.getElementById("hidden").value = rangeSlider.value/100;
+    var bulletPosition = rangeSlider.value / rangeSlider.max;
+    rangeBullet.style.left = bulletPosition * 375 + "px";
+    }
+  }
+
+  </script>
+
+</head>
+<body>
+    {% block body %}{% endblock %}        
+</body>
+</html>
