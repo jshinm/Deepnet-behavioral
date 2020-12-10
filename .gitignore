@@ -1,8 +1,8 @@
 /bias_behavior
+/bias_web
 .vscode
 /share
 behavioral_test.ipynb
 styletest.html
 behavior.py
-/bias_web
 pyvenv.cfg
