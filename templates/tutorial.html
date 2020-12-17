@@ -10,43 +10,53 @@
 <div class='div1'>
     {% if stage == 0 %}
     <p>Your job is to decide which group of patterns (shown as <img src='./static/tut/go.png' width=4% height=4%> and <img src='./static/tut/po.png' width=4% height=4%>) does
-    a <font color='black'><b>black point</b></font> (shown as <img src='./static/tut/bo.png' width=4% height=4%>) belong in the presented image.</p>
+    a <font color='black'><b>black point</b></font> (shown as <img src='./static/tut/bo.png' width=4% height=4%>) likely belong in the presented image.</p>
     <img src="/static/tut/img1.png">
     {% elif stage == 1 %}
     <p>What you see below is the environment you will be interacting with. After evaluating the image, you will submit your response using the slider below the image. 
     <br><br>
     Move the slider to the right if you believe a <font color='black'><b>black point</b></font> (shown as <img src='./static/tut/bo.png' width=4% height=4%>) 
-    should belong to the <font color='purple'><b>purple group</b></font> (shown as <img src='./static/tut/po.png' width=4% height=4%>) 
+    will likely belong to the <font color='purple'><b>purple group</b></font> (shown as <img src='./static/tut/po.png' width=4% height=4%>) 
     or to the left for the <font color='green'><b>green group</b></font> (shown as <img src='./static/tut/go.png' width=4% height=4%>).</p>    
     <img src="/static/tut/img1.png">
     <input id="anskey" type="hidden" value=80>      
     {% elif stage == 2 %}
-    <p>If your confidence leaned towards the <font color='purple'><b>purple group</b></font> for the previous image, then you assigned the <font color='black'><b>black point</b></font>
-         to the correct group. Congratulations!<br><br>
-    Now let's take a look at another image. Which group do you think a <font color='black'><b>black point</b></font> belongs? Respond using the slider.</p>
-    <img src="/static/tut/img2.png">
-    <input id="anskey" type="hidden" value=20>     
+    <p>The correct answer is the <font color='purple'><b>purple group</b></font><br><br></p>
+    <center><img src="/static/tut/img1.png"> <img src="/static/tut/img1a.png"><br>
+    <img src="/static/tut/pslider.png"><br><br></center>
+    You may now begin to notice that what the image is showing is only the <u><b>PART</b></u> of the whole group. With this in mind, let's try another one.</p>
+    <!-- <p>Now let's take a look at another image.</p> -->
     {% elif stage == 3 %}
-    <p>If your confidence leaned towards the <font color='green'><b>green group</b></font> for this image, then you assigned the <font color='black'><b>black point</b></font>
-         to the correct group. Congratulations!<br>
-        <center><img src="/static/tut/img3.png"></center><br>
-        You may now begin to notice that what the image is showing is only the <u><b>PART</b></u> of the whole group. With this in mind, let's try another image.</p>    
+    <p>Which group do you think a <font color='black'><b>black point</b></font> belongs? Respond using the slider.</p>
+    <img src="/static/tut/img2.png"><br>
+    <input id="anskey" type="hidden" value=20>         
     {% elif stage == 4 %}
+    <p>The correct answer is the <font color='green'><b>green group</b></font><br><br>
+        <center><img src="/static/tut/img2.png"><img src="/static/tut/img2a.png"><br>
+            <img src="/static/tut/gslider.png"><br><br></center>
+    Sometimes, the pattern can be more complex. Let's take a look at the next image.</p>    
+    {% elif stage == 5 %}
+    <p>Which group do you think a <font color='black'><b>black point</b></font> belongs? Respond using the slider.</p>
+    <img src="/static/tut/img3.png">
+    <input id="anskey" type="hidden" value="80">     
+    {% elif stage == 6 %}
+    <p>The correct answer is the <font color='purple'><b>purple group</b></font><br><br></p>
+    <center><img src="/static/tut/img3.png"> <img src="/static/tut/img3a.png"><br>
+    <img src="/static/tut/pslider.png"><br><br></center>
+    How about the next one?</p>
+    {% elif stage == 7 %}
     <p>Which group do you think a <font color='black'><b>black point</b></font> belongs? Respond using the slider.</p>
     <img src="/static/tut/img4.png">
-    <input id="anskey" type="hidden" value="80">     
-    {% elif stage == 5 %}
-    <p>If you chose the <font color='purple'><b>purple group</b></font>, you are correct! How about this one?</p>
-    <img src="/static/tut/img5.png">
-    {% elif stage == 6 %}
-    <p>Tough wasn't it? In fact, the answer to this question was <u><b>NEITHER</b></u> because this is where green (shown as <img src='./static/tut/go.png' width=4% height=4%>)
-         and purple (shown as <img src='./static/tut/po.png' width=4% height=4%>) overlaps! In this case,
+    {% elif stage == 8 %}
+    <p>The answer to this question was <u><b>equally likely</b></u> because this is where <font color='green'><b>green</b></font> 
+        (shown as <img src='./static/tut/go.png' width=4% height=4%>)
+         and <font color='purple'><b>purple</b></font> (shown as <img src='./static/tut/po.png' width=4% height=4%>) overlaps. In this case,
         you would place your slider to the middle.<br>
-        <center><img src="/static/tut/img6.png"></center>
-        So you now know that the response does not always have to be green or purple, and the question can be tricky sometimes. We do not expect you 
-        to get everything right. Just do your best and more importantly have fun!<br><br>
+        <center><img src="/static/tut/img4.png"> <img src="/static/tut/img4a.png"><br>
+            <img src="/static/tut/kslider.png"><br><br></center>
+        So you now know that the response does not always have to be <font color='green'><b>green</b></font> or <font color='purple'><b>purple</b></font>, and the question can be tricky sometimes.<br><br>
         <!-- Before we conclude this tutorial, let's do some quick simulations. When you are ready, please press the Start Simulation button below.<br><br> -->
-    {% elif stage == 7 %}
+    {% elif stage == 9 %}
         This concludes our tutorial, please respond to the best of your ability to answer each question. To begin your test, please click the button below to
     go to the main page. Good luck!<br><br>
     <table id="important"><tr><td><font color="red">Important: we cannot accept your submission if your submission is
@@ -60,17 +70,17 @@
     </div>
     {% endif %}
     </font>
-    {% if stage == 1 or stage == 2 or stage == 4 or stage == 5%}
+    {% if stage == 1 or stage == 3 or stage == 5 or stage == 7%}
 
     <table><tr><td>
-        Please rate your confidence using the slider below<br>
+        <!-- Please rate your confidence using the slider below<br> -->
         <div class="container">  
             <div class="range-slider">
-              <span id="rs-bullet" class="rs-label">0</span>
+              <!-- <span id="rs-bullet" class="rs-label">0</span> -->
               <input id="myRange" class="rs-range" type="range" value="0" min="0" max="100">      
             </div>    
             <div class="box-minmax">
-              <span><font color='green'>GREEN</font></span><span><font color='purple'>PURPLE</font></span>
+                <span><font color='green'>Definitely<br> GREEN</font></span>Equally likely<span><font color='purple'>Definitely<br> PURPLE</font></span>
             </div>    
           </div>
 
@@ -91,7 +101,7 @@
         </form>
     </div>
 
-    {% elif stage < 7 %}
+    {% elif stage < 9 %}
     <div>
         <form action='/tutorial', method='POST'>            
             <!-- <input oninput="rangeFunction()" type="range" min="0.00" max="100.0" class="sliders" id="myRange"> -->

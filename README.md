@@ -3,7 +3,13 @@ Online behavioral experiment for deepnet paper powered by Flask
 
 https://inducedbias.herokuapp.com/
 
-<!-- TODO: -->
+TODO:
+- [ ] implement spiral posterior
+
+12/17/20 <br>
+- [x] modify tutorial to emphasize likelihood judgement
+- [x] further simplify tutorials and visually more attractive
+- [x] remove slider bubble and change tick labels
 
 12/09/20 <br>
 - [x] Hard set the experiment trials to 50
