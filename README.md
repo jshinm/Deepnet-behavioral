@@ -6,7 +6,7 @@ https://inducedbias.herokuapp.com/
 <!-- TODO: -->
 
 12/23/20 <br>
-- [x] add "catch" trials
+- [x] add "catch" trials (only sampled within the unit circle)
 - [x] include consent language
 - [x] implement spiral posterior
 - [x] spiral parameters modified (reduced noise 2.5->1.0)
