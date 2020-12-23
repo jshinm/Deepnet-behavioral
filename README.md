@@ -3,8 +3,13 @@ Online behavioral experiment for deepnet paper powered by Flask
 
 https://inducedbias.herokuapp.com/
 
-TODO:
-- [ ] implement spiral posterior
+<!-- TODO: -->
+
+12/20/20 <br>
+- [x] add "catch" trials
+- [x] include consent language
+- [x] implement spiral posterior
+- [x] spiral parameters modified (reduced noise 2.5->1.0)
 
 12/17/20 <br>
 - [x] modify tutorial to emphasize likelihood judgement

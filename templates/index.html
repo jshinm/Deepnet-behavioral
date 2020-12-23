@@ -5,28 +5,56 @@
 {% endblock %}
 
 {% block body %}
-<br><br><br><br><br><br><br><br>
+<br><br><br><br><br>
 <center>
-{% if t == 1 %}
-  <!-- Please preset how many responses you are willing to provide in the box below<br><br> -->
-  Please press button below to begin your task<br><br>
+{% if t == 2 %}
+<br>
+Please press button below to begin your task<br><br>
 
-  <form action="/test" method="POST" onsubmit="disable2()">
-    <!-- <input type="number" min="50" max="200" placeholder="valid values (50-200)" name="hit" style="width: 10%" required><br><br> -->
-    <input type="hidden" value={{user}} name="user">
-    <input type="hidden" value={{trial}} name="trial">
-    <input type="hidden" value={{real}} name="real">
-    <input type="hidden" value={{mtype}} name="mtype">
-    <input type="hidden" value={{X}} name="X">
-    <input type="hidden" value={{sampleN}} name="sampleN">
-    <input type="submit" value="Begin Test" id="beginTest">
-  </form>
-  <br><br><br><br>
-  Or you can review the tutorial again by pressing the button below<br><br>
-  <form action='/tutorial'>
-    <!-- <input type="hidden" value="True" id='t'> -->
-    <input type="submit" value="Review Tutorial">
-  </form>
+<form action="/test" method="POST" onsubmit="disable2()">
+  <!-- <input type="number" min="50" max="200" placeholder="valid values (50-200)" name="hit" style="width: 10%" required><br><br> -->
+  <input type="hidden" value={{user}} name="user">
+  <input type="hidden" value={{trial}} name="trial">
+  <input type="hidden" value={{real}} name="real">
+  <input type="hidden" value={{score}} name="score">
+  <input type="hidden" value={{mtype}} name="mtype">
+  <input type="hidden" value={{X}} name="X">
+  <input type="hidden" value={{sampleN}} name="sampleN">
+  <input type="submit" value="Begin Test" id="beginTest">
+</form>
+</div>
+<br><br><br><br>
+Or you can review the tutorial again by pressing the button below<br><br>
+<form action='/tutorial'>
+  <!-- <input type="hidden" value="True" id='t'> -->
+  <input type="submit" value="Review Tutorial">
+</form>
+{% elif t == 1 %}
+  <!-- Please preset how many responses you are willing to provide in the box below<br><br> -->
+  <div style="width: 30%">
+This HIT is part of a Johns Hopkins University (JHU) scientific 
+research study. By answering the following questions, you are
+participating in a study titled 'Visual integration, recognition, and
+human social vision' being performed by scientists in the JHU
+Computational Cognitive Science Lab under the principal
+investigator (PI) <b>Leyla Isik</b>. If you have questions about this
+research please contact the PI at <i>lisik (at) jhu (dot) edu</i>
+<br><br>
+<form action='/', method='POST'>    
+  <input type="hidden" value={{t}} name="t" id="t">
+  <input type="hidden" value={{score}} name="score">
+  <div class="box-minmax">
+    <span>
+      <input type="submit" value="I AGREE" onclick="agree()">
+    </span>
+    <span>
+      <input type="submit" value="I DO NOT AGREE" onclick="disagree()">
+    </span>
+  </div>   
+</form>
+<!-- [I agree] <input type='checkbox' class='consent' required> -->
+{% elif t == 3 %}
+Thank you for your interest. Please exit the website.
 
 {% else %}
   <div style="width: 30%">

@@ -57,20 +57,30 @@
         So you now know that the response does not always have to be <font color='green'><b>green</b></font> or <font color='purple'><b>purple</b></font>, and the question can be tricky sometimes.<br><br>
         <!-- Before we conclude this tutorial, let's do some quick simulations. When you are ready, please press the Start Simulation button below.<br><br> -->
     {% elif stage == 9 %}
-        This concludes our tutorial, please respond to the best of your ability to answer each question. To begin your test, please click the button below to
-    go to the main page. Good luck!<br><br>
+       As a last step of the tutorial, you will be quizzed
+        with simple test cases. If you are unhappy with your score, you may retry as many times as you want. <br><br><br>
+        
+        Please click the button below to begin your quiz. Good luck!<br><br>
+    {% elif stage == 10 %}
+    <b>You got {{score}} out of 5 questions correct.</b><br><br> 
+    
+    If you wish to try again, please click the [Prev Page] button below, otherwise, go to the next page by clicking [Next Page] button.<br><br>
+    {% elif stage == 11 %}
+    This concludes our tutorial, please respond to the best of your ability to answer each question. To begin your test, please click the 
+    button below to go to the main page. Good luck! <br><br>
     <table id="important"><tr><td><font color="red">Important: we cannot accept your submission if your submission is
         partially complete, not genuine, or erroneous. Please do NOT refresh your page or try to go back to the previous page at all time.</font></td></tr></table>
     </p>
     <div>
         <form action='/', method='POST'>
             <input type="hidden" value="1" name="t">
+            <input type="hidden" value={{score}} name="score">
             <input type="submit" value="Main Page" id="next">
         </form>
     </div>
     {% endif %}
     </font>
-    {% if stage == 1 or stage == 3 or stage == 5 or stage == 7%}
+    {% if stage == 1 or stage == 3 or stage == 5 or stage == 7 %}
 
     <table><tr><td>
         <!-- Please rate your confidence using the slider below<br> -->
@@ -88,6 +98,22 @@
 
     {% endif %}
 
+    {% if stage == 9 %}
+
+    <div>
+        <form action='/catch', method='POST'>
+            <input type="submit" value="Start Quiz" id="next">
+        </form>
+
+        <!-- <form action='/', method='POST'>
+            <input type="hidden" value="1" name="t">
+            <input type="submit" value="Main Page" id="next">
+        </form> -->
+
+    </div>   
+
+    {% endif %}
+
     {% if stage == 0 %}
     <div>
         <form action='/tutorial', method='POST'>
@@ -101,12 +127,13 @@
         </form>
     </div>
 
-    {% elif stage < 9 %}
+    {% elif stage < 9 or stage == 10 %}
     <div>
         <form action='/tutorial', method='POST'>            
             <!-- <input oninput="rangeFunction()" type="range" min="0.00" max="100.0" class="sliders" id="myRange"> -->
             <input type="hidden" id="hidden" name="est"> 
             <input type="hidden" value={{stage}} name="stage" id="stage">
+            <input type="hidden" value={{score}} name="score">
             <input type="submit" value="Prev Page" onclick="prev()">
             <input type="submit" value="Next Page" onclick="checkanswer()">
         </form>

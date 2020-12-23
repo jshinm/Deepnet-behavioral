@@ -16,6 +16,7 @@
         <th>DATASET</th>
         <th>PRED</th>
         <th>TRUE</th>
+        <th>CATCH</th>
         <th>X COORDINATES</th>
         <th>SAMPLE #</th>
         <th><a href="{{url_for('readbyDate')}}">DATE</a></th>
@@ -29,6 +30,7 @@
             <td>{{ task.mtype }}</td>
             <td>{{ task.est }}</td>
             <td>{{ task.real }}</td>
+            <td>{{ task.score }}</td>
             <td>{{ task.x }}</td>
             <td>{{ task.sampleN }}</td>
             <td>{{ task.date_created }}</td>

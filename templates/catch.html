@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<br><br><br><br>
+<center>
+<table id="test1" width=100%>
+<tr>
+  <td width=33%>
+    <!-- Left Side -->    
+  </td>
+
+  <td width=33%>
+<font size=8>{{ctrial}} OF {{chit}}</font><br>
+<img src="data:image/png;base64,{{imagen.imagen}}"><br>
+<!-- {{ user }}<br> -->
+<form action='/catch', method='POST' onsubmit="disable()">
+  <div class="container"> 
+     
+    <div class="range-slider">
+      <input id="myRange" class="rs-range" type="range" value="0" min="0" max="100">      
+    </div> 
+
+    <div class="box-minmax">
+      <span><font color='green'>Definitely<br> GREEN</font></span>Equally likely<span><font color='purple'>Definitely<br> PURPLE</font></span>
+    </div>    
+  </div>
+
+  <input type="hidden" id="hidden" name="est"> 
+  <input type="hidden" value={{real}} name="real">
+  <input type="hidden" value={{ctrial}} name="ctrial">
+  <input type="hidden" value={{chit}} name="chit">
+  <input type="hidden" value={{score}} name="score">
+
+  <input type="submit" value="Submit" id="submit" enable>
+  
+</form>
+<br>
+</td>
+
+<td width=33%>
+  <!-- Right Side -->
+</td>
+
+</tr>
+<tr><td colspan="3">
+ <!-- Bottom -->
+</td></tr>
+
+</table>
+</center>
+
+{% endblock %}
+

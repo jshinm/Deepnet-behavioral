@@ -76,6 +76,11 @@
       margin:0 auto; */
     }
 
+    input.consent{
+      width: 20px;
+      height: 20px;
+    }
+
    /* SLIDER STYLING */
     .container {
       display: flex;
@@ -197,7 +202,15 @@
     }
 
     function disable2() {
-        document.getElementById("beginTest").disabled=true;   
+      document.getElementById("beginTest").disabled=true;   
+    }
+
+    function agree() {
+      document.getElementById("t").value = 2;   
+    }
+
+    function disagree() {
+      document.getElementById("t").value = 3;
     }
 
     // Enable for lock and submit
@@ -231,7 +244,7 @@
     }
   }
 
-    window.onload = function() {rangeFunction()}; //display default  range  value in #result
+    // window.onload = function() {rangeFunction()}; //display default  range  value in #result
   
     // function rangeFunction() {
     //     // var x = document.getElementById("myRange").value; //get current range value
@@ -247,24 +260,31 @@
     function textFunction() {
       var N = document.getElementById("sampleN_text").value //get sample number from test.html
       document.getElementById("sampleN").value = N //assign sample number value to hidden input under /test request
-
     }
 
     window.onload=function(){
-    
+
     document.getElementById("hidden").value = 0;
     var rangeSlider = document.getElementById("myRange");
-    var rangeBullet = document.getElementById("rs-bullet");
-
+    // var rangeBullet = document.getElementById("rs-bullet");
     rangeSlider.addEventListener("input", showSliderValue);
-
-    function showSliderValue() {
-    rangeBullet.innerHTML = rangeSlider.value;
-    document.getElementById("hidden").value = rangeSlider.value/100;
-    var bulletPosition = rangeSlider.value / rangeSlider.max;
-    rangeBullet.style.left = bulletPosition * 375 + "px";
     }
-  }
+
+    // without the bullet
+    function showSliderValue() {
+    var rangeSlider = document.getElementById("myRange");
+    document.getElementById("hidden").value = rangeSlider.value/100;
+    }
+
+    // with the bullet
+    // function showSliderValue() {
+    // var rangeSlider = document.getElementById("myRange");
+    // var rangeBullet = document.getElementById("rs-bullet");
+    // rangeBullet.innerHTML = rangeSlider.value;
+    // document.getElementById("hidden").value = rangeSlider.value/100;
+    // var bulletPosition = rangeSlider.value / rangeSlider.max;
+    // rangeBullet.style.left = bulletPosition * 375 + "px";
+    // }
 
   </script>
 
