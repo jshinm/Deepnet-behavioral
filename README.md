@@ -5,7 +5,7 @@ https://inducedbias.herokuapp.com/
 
 <!-- TODO: -->
 
-12/20/20 <br>
+12/23/20 <br>
 - [x] add "catch" trials
 - [x] include consent language
 - [x] implement spiral posterior
