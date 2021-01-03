@@ -12,7 +12,7 @@ https://inducedbias.herokuapp.com/
 - [x] implement spiral posterior
 - [x] spiral parameters modified (reduced noise 2.5 -> 1.0)
 - [x] add feedback panel at the end of the experiment
-<strike>- [ ] populate exactly the equal parts of each pattern</strike>
+- [-] <strike>populate exactly the equal parts of each pattern</strike>
 
 
 12/17/20 <br>
