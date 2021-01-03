@@ -7,12 +7,33 @@
 {% block body %}
 <br><br><br><br><br><br><br><br>
 <center>
+    {% if done == 1 %}
+    <div class='div1'>
+
+    Congratulations! You have completed your task. We highly recommend you to leave us your feedback. 
+    Once finished, please click the submit button below to access your survey code.
+    <br><br>
+
+    <form action='/comment', method='POST'>
+        <textarea type='text' name='comment' id='comment' placeholder='Please leave your comments here'></textarea>
+        <input type="hidden" value={{user}} name="user"> <!-- user ID -->
+        <input type="hidden" value={{done}} name="done"> <!-- done -->
+        <br><br>
+        <input type='submit' value='Submit' id='next'>
+    </form>
+
+    </div>
+    {% elif done == 2 %}
     Thank you for your participation. <br>Please submit the following survey code on MTurk <br><br>
         <table id="finished1">
             <tr>
                 <td> <b>{{user}}</b></td>
             </tr>
         </table>
+        <br><br>
+
+    {% endif %}
+
 </center>
 
 {% endblock %}

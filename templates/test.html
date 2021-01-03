@@ -10,8 +10,9 @@
 <table id="test1" width=100%>
 <tr>
   <td width=33%>
+    {% if admin == 1 %}
     <!-- Left Side -->    
-    <!-- <table><tr><td>
+    <table><tr><td>
       ADMIN ONLY<br>
       {% if inside == 0 %}
         <img src="data:image/png;base64,{{imagen_5.imagen_5}}"><br><br>
@@ -23,7 +24,8 @@
         <input type="button" value="Square" onclick="click_square()">
         <input type="button" value="Circle" onclick="click_circle()">
       </form>     
-    </td></tr></table>    -->
+    </td></tr></table>   
+    {% endif %}
   </td>
 
   <td width=33%>
@@ -35,6 +37,7 @@
 <form action='/test', method='POST' onsubmit="disable()">
   
   <!-- <input oninput="rangeFunction()" type="range" min="0.00" max="100.0" class="sliders" id="myRange"> -->
+  <!-- <label id="result"></label><br> -->
 
   <div class="container">  
     <div class="range-slider">
@@ -46,23 +49,26 @@
     </div>    
   </div>
 
-  <input type="hidden" id="hidden" name="est"> 
-  <input type="hidden" value={{trial}} name="trial">
-  <input type="hidden" value={{hit}} name="hit">
-  <input type="hidden" value={{user}} name="user">
-  <input type="hidden" value={{real}} name="real">
-  <input type="hidden" value={{pick}} name="pick">
-  <input type="hidden" value={{score}} name="score">
-  <input type="hidden" value={{mtype}} name="mtype">
-  <input type="hidden" value={{X}} name="X">
-  <label id="result"></label><br>
+  <input type="hidden" id="hidden" name="est"> <!-- estimated posterior --> 
+  <input type="hidden" value={{trial}} name="trial"> <!-- current trial # -->
+  <input type="hidden" value={{hit}} name="hit"> <!-- total # hit -->
+  <input type="hidden" value={{user}} name="user"> <!-- user ID -->
+  <input type="hidden" value={{real}} name="real"> <!-- true posterior -->
+  <input type="hidden" value={{pick}} name="pick"> <!-- choose simulation -->
+  <input type="hidden" value={{mtype}} name="mtype"> 
+  
+  <input type="hidden" value={{r_est}} name="r_est"> <!-- catch trial real est -->    
+  <input type="hidden" value={{cidx}} name="cidx"> <!-- catch trial index -->
+  <input type="hidden" value={{score}} name="score"> <!-- catch trial score -->
+  <input type="hidden" value={{c_real}} name="c_real"> <!-- catch trial key -->  
+
+  <input type="hidden" value={{sampleN}} id="sampleN" name="sampleN"> <!-- total # sample -->
+  <input type="hidden" id="inside" value={{inside}} name="inside"> <!-- square/circle bbox -->
+  <input type="hidden" value={{X}} name="X"> <!-- X-coordinates -->  
+  <input type="submit" value="Submit" id="submit" enable>  
+
   <!-- <input type="submit" value="Lock" id="lock" onclick="enable()"> -->
   <!-- <input type="submit" value="Submit" id="submit" disabled> -->
-  <input type="hidden" value={{sampleN}} id="sampleN" name="sampleN">
-  <input type="hidden" id="inside" value={{inside}} name="inside">
-
-  <input type="submit" value="Submit" id="submit" enable>
-  
 </form>
 
 <br>
@@ -98,6 +104,7 @@
     <br><br>
     <table width=100%><tr>
       <td width=35%>
+        <!-- Work in progress -->
         <!-- <form action='/test', method="POST"><p>
           <input type="checkbox" value=0 name="dset0">Gauss XOR<br>  
           <input type="checkbox" value=1 name="dset1">Gauss R-XOR<br>  

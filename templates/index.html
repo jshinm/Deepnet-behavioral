@@ -24,18 +24,20 @@ Please press button below to begin your task<br><br>
 </form>
 </div>
 <br><br><br><br>
-Or you can review the tutorial again by pressing the button below<br><br>
+Or you can review the tutorial again by clicking the button below<br><br>
 <form action='/tutorial'>
   <!-- <input type="hidden" value="True" id='t'> -->
   <input type="submit" value="Review Tutorial">
 </form>
-{% elif t == 1 %}
+{% elif t == 0 %}
   <!-- Please preset how many responses you are willing to provide in the box below<br><br> -->
-  <div style="width: 30%">
+<div id="consent">
+  <img src="/static/css/top-logo.png" width=50%><br><br><br>
+  <div style="width: 30%">    
 This HIT is part of a Johns Hopkins University (JHU) scientific 
 research study. By answering the following questions, you are
-participating in a study titled 'Visual integration, recognition, and
-human social vision' being performed by scientists in the JHU
+participating in a study titled "Visual integration, recognition, and
+human social vision" being performed by scientists in the JHU
 Computational Cognitive Science Lab under the principal
 investigator (PI) <b>Leyla Isik</b>. If you have questions about this
 research please contact the PI at <i>lisik (at) jhu (dot) edu</i>
@@ -52,11 +54,14 @@ research please contact the PI at <i>lisik (at) jhu (dot) edu</i>
     </span>
   </div>   
 </form>
+</div>
+<br><br><br><img src="/static/css/bottom-logo.png" width=50%>
+</div>
 <!-- [I agree] <input type='checkbox' class='consent' required> -->
 {% elif t == 3 %}
 Thank you for your interest. Please exit the website.
 
-{% else %}
+{% elif t == 1 %}
   <div style="width: 30%">
     Welcome to our exciting behavioral experiment tutorial.<br><br> Should you decide to take on this task, the test will be available to you immediately after the tutorial.
     We greatly thank you for taking your valuable time to explore our experiment. We look forward to your participation.

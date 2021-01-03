@@ -6,10 +6,14 @@ https://inducedbias.herokuapp.com/
 <!-- TODO: -->
 
 12/23/20 <br>
-- [x] add "catch" trials (only sampled within the unit circle)
-- [x] include consent language
+- [x] add "catch" trials (only sampled within the unit circle; interspersed throughout the test)
+- [x] add practice trials at the end of the tutorials (currently 5 trials)
+- [x] include consent language (placed in the very first page)
 - [x] implement spiral posterior
-- [x] spiral parameters modified (reduced noise 2.5->1.0)
+- [x] spiral parameters modified (reduced noise 2.5 -> 1.0)
+- [x] add feedback panel at the end of the experiment
+<strike>- [ ] populate exactly the equal parts of each pattern</strike>
+
 
 12/17/20 <br>
 - [x] modify tutorial to emphasize likelihood judgement

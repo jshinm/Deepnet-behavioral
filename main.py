@@ -1,7 +1,7 @@
 ##########################################################################
 #DESC: Flask-based website created for inductive bias behavioral experiment
-#      Inquires confidence of users for five different datasets
-#DATE: 11/17/2020
+#      Inquires probabilistic confidence of users on different simulation datasets
+#DATE: 01/02/2021
 #NAME: Jong M. Shin
 ##########################################################################
 
@@ -258,8 +258,17 @@ class generate:
 
         return X[:,0], X[:,1], z
 
-class Todo(db.Model):
+class CmtList(db.Model):
+    __tablename__ = 'Cmtdb'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.String(200), default=str(uuid.uuid4()))
+    comment = db.Column(db.String(1000), default="NA")
 
+    def __repr__(self):
+        return '<Task %r>' % self.id
+
+class Todo(db.Model):
     __tablename__ = 'testdb'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -344,10 +353,24 @@ def plot_fig():
         # except:
         #     pass
         
-        # admin mode 1 = True
-        admin = 0
-
+        ############### INITIALIZATION ###############
+        admin = 0 # admin mode 1 = True
         n = int(request.form['sampleN'])
+        userid = str(request.form['user'])
+        trial = int(request.form['trial'])
+
+        # toggle square/circle on test.html
+        try: inside = int(request.form['inside'])
+        except: inside = 0
+
+        # requesting data => n-1 acquisition
+        try: hit = int(request.form['hit'])
+        except: hit = 50
+
+        real = float(request.form['real'])
+        mtype = int(request.form['mtype'])
+        x = str(request.form['X'])
+        sampleN = int(request.form['sampleN'])
 
         try: #work in progress
             picklist = [
@@ -362,24 +385,109 @@ def plot_fig():
             
         pick = np.random.choice(picklist)
 
+        # control parameters
         h = 0.1
-        five = False #activates backend for five panel view
+        rng = 1.98
+        five = False #activates five panel view
+
+        #catch trial score
+        try: 
+            c_score = int(request.form['score'])
+            c_real = int(request.form['c_real'])
+        except: 
+            c_score = 0
+            c_real = 999
+
+        # catch trial indexing
+        try: cidx = str(request.form['cidx'])
+        except: cidx = str(np.random.multinomial(hit*0.9, [1/5]*5).cumsum().tolist())
+        ############### END INITIALIZATION ###############
+
+        patience = 0.2 # threshold range for correct answer
+
+        try: # request and calculate the score
+            c_est = float(request.form['est'])
+
+            if c_est <= c_real+patience and c_est >= c_real-patience:
+                c_score += 1  
+
+        except: pass
+
+        for char in '[] ':
+            cidx = cidx.replace(char,'')
+        cidx = cidx.split(',')
+        cidx = [int(i) for i in cidx if i != '']
+
+        # conditional to introduce catch trial
+        if len(cidx) != 0 and cidx[0] == trial:
+
+            r_est = float(request.form['est'])
+            cidx.pop(0)
+
+            length = np.sqrt(np.random.uniform(0, 1, n))
+            angle  = np.pi * np.random.uniform(0, 2, n)
+
+            testx = length * np.cos(angle)
+            testy = length * np.sin(angle)
+            testX = np.c_[testx,testy]
+            testY = (testX[:,trial%2] < 0)*1 #getting a counter to switch between horizontal and vertial split
+
+            tempX = np.linspace(-1.8,1.8,20)
+            tempY = np.linspace(-1.8,1.8,20)
+
+            while True: #ensures sampling within the unit circle
+                chooseX = np.random.choice(tempX)
+                chooseY = np.random.choice(tempY)
+                if np.sqrt(chooseX**2+chooseY**2) <= 1:
+                    blckX = np.array([chooseX,chooseY])
+                    break
+
+            # getting a correct label
+            if blckX[trial%2] < 0: blckY = 0 #getting a counter to switch between horizontal and vertial split
+            else: blckY = 1
+
+            ################ TESTING VIEW ################
+            fig, ax = plt.subplots()
+
+            ax.scatter(testY*testX[:,0], testY*testX[:,1], linewidth=1, facecolors='none', edgecolors='green', s=30)
+            ax.scatter(abs(testY-1)*testX[:,0], abs(testY-1)*testX[:,1], linewidth=1, facecolors='none', edgecolors='purple', s=30)
+            ax.scatter(blckX[0],blckX[1], linewidth=1, facecolors='black', s=100)
+
+            ax.axvline(c=[1.0, 0.5, 0.25], lw=2)
+            ax.axhline(c=[1.0, 0.5, 0.25], lw=2)
+            ax.axis([-2,2,-2,2]);
+            ax.set_xticks([])
+            ax.set_yticks([])
+
+            img = io.BytesIO()
+            fig.savefig(img, format='png', bbox_inches='tight')
+            img.seek(0)
+            plot_url = base64.b64encode(img.getvalue()).decode() 
+                    
+            for char in '[] ':
+                cidx = str(cidx).replace(char,'')  
+
+            if trial < hit+1:
+            # pushing current data for following request (i.e. pushing N, requesting N-1 to remain current)
+                return render_template('test.html', imagen={'imagen': plot_url}, user=userid, score=c_score,
+                        hit=hit, trial=trial, real=real, mtype=pick, sampleN=n, X=x, inside=inside, admin=admin, r_est=r_est,
+                        c_real=blckY, cidx=cidx)
 
         if pick == 0: #GAUSS XOR
             X, Y = generate.generate_gaussian_parity(n=n, cov_scale=0.1, angle_params=np.pi)
-            tempX, tempY, tempC = generate.true_xor(h=h, rotate=False, sig=0.25)
+            tempX, tempY, tempC = generate.true_xor(l=-rng, r=rng, h=h, rotate=False, sig=0.25)
             
         elif pick == 1: #GAUSS R-XOR
             X, Y = generate.generate_gaussian_parity(n=n, cov_scale=0.1, angle_params=np.pi/4)
-            tempX, tempY, tempC = generate.true_xor(h=h, rotate=True, sig=0.25)
+            tempX, tempY, tempC = generate.true_xor(l=-rng, r=rng, h=h, rotate=True, sig=0.25)
 
         elif pick == 2: #GAUSS S-XOR
             X, Y = generate.generate_gaussian_parity(n=n, cov_scale=0.01, angle_params=np.pi)
-            tempX, tempY, tempC = generate.true_xor(h=h, rotate=False, sig=0.1)
+            tempX, tempY, tempC = generate.true_xor(l=-rng, r=rng, h=h, rotate=False, sig=0.1)
 
         elif pick == 3: #UNIFORM XOR
             X, Y = generate.generate_uniform_XOR(N=n)
-            tempX, tempY, tempC = generate.true_Uxor(h=h)
+            tempX, tempY, tempC = generate.true_Uxor(l=-rng, r=rng, h=h)
 
         elif pick == 4: #SPIRAL
             X, Y = generate.generate_spirals(n, 2, noise=1, rng=1) #noise reduced from 2.5 to 1.0 on 12/23/2020
@@ -527,41 +635,38 @@ def plot_fig():
             plot_url_5 = None
             plot_url_5_cir = None
 
-        # toggle square/circle on test.html
-        try: inside = int(request.form['inside'])
-        except: inside = 0
-
-        # requesting data => n-1 acquisition
-        try: hit = int(request.form['hit'])
-        except: hit = 50
-        userid = str(request.form['user'])
-        trial = int(request.form['trial'])
-        real = request.form['real']
         next_real = newaxis1[0,2]# if pick != 4 else 999
-        mtype = int(request.form['mtype'])
-        x = str(request.form['X'])
-        sampleN = int(request.form['sampleN'])
-        score = int(request.form['score'])
-        
-        try:
-            est = float(request.form['est'])
-            new_task = Todo(user=userid, hit=hit, trial=trial, mtype=mtype, est=est, real=real, score=score, x=x, sampleN=sampleN)
+
+        # storing in db
+        try:            
+            # registering only the est when catch is not triggered
+            if c_real != 999: #storing est from the real trial AFTER catch is triggered
+                temp_est = float(request.form['r_est'])
+                c_real = 999 #reset catch
+            else: 
+                temp_est = float(request.form['est'])                
+
+            new_task = Todo(user=userid, hit=hit, trial=trial, mtype=mtype, est=temp_est, real=real, score=c_score, x=x, sampleN=sampleN)
             db.session.add(new_task)
-            db.session.commit()                
-        except:
-            pass
+            db.session.commit()              
+  
+        except: pass #initialization pass
 
-        trial += 1
+        trial += 1 #starts from 1
 
-        if trial < hit+1:
+        for char in '[] ':
+            cidx = str(cidx).replace(char,'')
+
+        if trial <= hit:
             # pushing current data for following request (i.e. pushing N, requesting N-1 to remain current)
             label = str(newaxis1[0,0:2].round(3).tolist()).replace(' ','')
             return render_template('test.html', imagen={'imagen': plot_url}, imagen_admin={'imagen_admin': plot_url_admin}, 
-                                                        imagen_5={'imagen_5': plot_url_5}, imagen_5_cir={'imagen_5_cir': plot_url_5_cir}, user=userid, score=score,
-                                                        hit=hit, trial=trial, real=next_real, mtype=pick, sampleN=n, X=label, inside=inside, admin=admin)
+                                                        imagen_5={'imagen_5': plot_url_5}, imagen_5_cir={'imagen_5_cir': plot_url_5_cir}, user=userid, score=c_score,
+                                                        hit=hit, trial=trial, real=next_real, mtype=pick, sampleN=n, X=label, inside=inside, admin=admin, 
+                                                        c_real=c_real, cidx=cidx)
                                                         #dset0=picklist[0],dset1=picklist[1],dset2=picklist[2],dset3=picklist[3],dset4=picklist[4])
         else:
-            return render_template('finished.html', user=userid) 
+            return render_template('finished.html', user=userid, done=1) 
 
 @app.route('/catch', methods=["post"])
 def catch_trial():
@@ -628,32 +733,45 @@ def catch_trial():
     fig.savefig(img, format='png', bbox_inches='tight')
     img.seek(0)
     plot_url = base64.b64encode(img.getvalue()).decode()   
-   
-    # try:
-    #     est = float(request.form['est'])
-    #     new_task = Todo(user=userid, hit=hit, trial=trial, mtype=mtype, est=est, real=real, x=x, sampleN=sampleN)
-    #     db.session.add(new_task)
-    #     db.session.commit()                
-    # except:
-    #     pass 
+
     if ctrial < chit+1:
         return render_template('catch.html', imagen={'imagen': plot_url}, real=blckY, chit=chit, ctrial=ctrial, score=score)
     else:
         stage = 10
         return render_template('tutorial.html', score=score, stage=stage)
 
+@app.route('/comment', methods=["POST"])
+def comment():
+    if request.method == 'POST':
+        userid = str(request.form['user'])
+        comment = str(request.form['comment'])
+        new_task = CmtList(user=userid, comment=comment)
+        db.session.add(new_task)
+        db.session.commit()  
+        return render_template('finished.html', user=userid, done=2)
+    else:
+        return 'ERROR [42]'
+
 @app.route('/download', methods=["post"])
 def downloadFile():
     path = ["test.xlsx", "test.db"]
     engine = create_engine('sqlite:///test.db', echo=True).connect() 
-    output = pd.read_sql_table('testdb', con=engine)
-    output.to_excel('test.xlsx', index=False)
+
+    with pd.ExcelWriter(path[0], engine='openpyxl') as writer:    
+        output = pd.read_sql_table('testdb', con=engine)
+        output.to_excel(writer, index=False, sheet_name='DB')
+
+        output = pd.read_sql_table('Cmtdb', con=engine)
+        output.to_excel(writer, index=False, sheet_name='COMMENTS')
+
+        writer.save()
     
     return send_file(path[0], as_attachment=True)
 
 @app.route('/empty')
 def emptydb():
     db.session.query(Todo).delete()
+    db.session.query(CmtList).delete()
     db.session.commit()
     return redirect('/read')
 

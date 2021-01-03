@@ -81,6 +81,24 @@
       height: 20px;
     }
 
+    #comment{
+      /* vertical-align:auto; */
+      vertical-align: top;
+      width:600px;
+      height:300px;
+      font-size: 20px;
+    }
+
+    #consent{
+      background-image: url("/static/css/bkg-white.png");
+      background-position-x: right;
+      background-repeat: no-repeat;
+      /* border:1px solid black; */
+      top: 10%;
+      bottom:20%;
+      position:absolute;
+    }
+
    /* SLIDER STYLING */
     .container {
       display: flex;
@@ -206,7 +224,7 @@
     }
 
     function agree() {
-      document.getElementById("t").value = 2;   
+      document.getElementById("t").value = 1;   
     }
 
     function disagree() {
