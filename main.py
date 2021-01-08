@@ -17,6 +17,12 @@ import pandas as pd
 import random
 import string
 
+import matplotlib
+matplotlib.use('agg') 
+# Currently, matplotlib is accessing the "tkagg" backend that connects to the GUI event loop 
+# and that causes unexpected behaviour. The plain "agg" backend does not connect to the GUI at all.
+# this allows plt.close()
+# https://stackoverflow.com/questions/51188461/using-pyplot-close-crashes-the-flask-app
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 from matplotlib.patches import Circle
@@ -446,7 +452,7 @@ def plot_fig():
             if blckX[trial%2] < 0: blckY = 0 #getting a counter to switch between horizontal and vertial split
             else: blckY = 1
 
-            ################ TESTING VIEW ################
+            ################ TESTING VIEW - CATCH ################
             fig, ax = plt.subplots()
 
             ax.scatter(testY*testX[:,0], testY*testX[:,1], linewidth=1, facecolors='none', edgecolors='green', s=30)
@@ -463,6 +469,9 @@ def plot_fig():
             fig.savefig(img, format='png', bbox_inches='tight')
             img.seek(0)
             plot_url = base64.b64encode(img.getvalue()).decode() 
+
+            # try: plt.close()
+            # except: pass
                     
             for char in '[] ':
                 cidx = str(cidx).replace(char,'')  
@@ -526,45 +535,53 @@ def plot_fig():
         img.seek(0)
         plot_url = base64.b64encode(img.getvalue()).decode()
 
+        try: 
+            plt.close()
+            # del img, fig, ax
+        except: pass
+
+        if admin == 1:
         ################ ADMIN VIEW ################
-        fs = 2  #figure scale
-        s  = 23 #point size
-        faxis = np.array([-1,1,-1,1]) * fs#np.multiply([-1,1,-1,1], fs) 
-        ftick = np.array([-1,0,1]) * fs#np.multiply([-1,0,1], fs) 
+            fs = 2  #figure scale
+            s  = 23 #point size
+            faxis = np.array([-1,1,-1,1]) * fs#np.multiply([-1,1,-1,1], fs) 
+            ftick = np.array([-1,0,1]) * fs#np.multiply([-1,0,1], fs) 
 
-        fig, (ax1, ax2) = plt.subplots(1,2, figsize=(3*2,3), constrained_layout=True)
-        plt.suptitle("X = " + str(newaxis1[0,0:2].round(3).tolist()) + " | Y = " + str(newaxis1[0,2].round(3)))
-        
-        #spiral not implemented yet
-        if pick == 4:
-            # ax1.scatter(x=newaxis1[:,0], y=newaxis1[:,1], c=newaxis1[:,2], cmap='RdBu_r', s=s)
-            ax1.add_patch(Rectangle(
-                (-2,-2), 4, 4, linewidth=2, edgecolor='k', fill=False, hatch='/'))
-            plt.suptitle("X = " + str(newaxis1[0,0:2].round(3).tolist()) + " | Y = Not Implemented Yet")
+            fig, (ax1, ax2) = plt.subplots(1,2, figsize=(3*2,3), constrained_layout=True)
+            plt.suptitle("X = " + str(newaxis1[0,0:2].round(3).tolist()) + " | Y = " + str(newaxis1[0,2].round(3)))
+            
+            #spiral not implemented yet
+            if pick == 4:
+                # ax1.scatter(x=newaxis1[:,0], y=newaxis1[:,1], c=newaxis1[:,2], cmap='RdBu_r', s=s)
+                ax1.add_patch(Rectangle(
+                    (-2,-2), 4, 4, linewidth=2, edgecolor='k', fill=False, hatch='/'))
+                plt.suptitle("X = " + str(newaxis1[0,0:2].round(3).tolist()) + " | Y = Not Implemented Yet")
+            else:
+                ax1.scatter(x=newaxis1[:,0], y=newaxis1[:,1], c=newaxis1[:,2], cmap='PRGn_r', s=s)
+                ax1.scatter(x=newaxis1[0,0], y=newaxis1[0,1], linewidth=1, facecolors='black', s=s)
+            
+            ax1.axvline(c=[1.0, 0.5, 0.25], lw=2)
+            ax1.axhline(c=[1.0, 0.5, 0.25], lw=2)
+            ax1.set_title('Posterior map')
+            ax1.axis(faxis);
+            ax1.set_yticks(ftick)
+            ax1.set_xticks(ftick)
+
+            ax2.scatter(x=newaxis1[:,0], y=newaxis1[:,1], linewidth=0.3, facecolors='none', edgecolors='black', s=s)
+            ax2.scatter(x=newaxis1[0,0], y=newaxis1[0,1], linewidth=0.3, facecolors='black', s=s)
+            ax2.set_title('Grid map')
+            ax2.axvline(c=[1.0, 0.5, 0.25], lw=2)
+            ax2.axhline(c=[1.0, 0.5, 0.25], lw=2)
+            ax2.axis(faxis);
+            ax2.set_xticks(ftick)
+            ax2.set_yticks([])
+
+            img = io.BytesIO()
+            fig.savefig(img, format='png', bbox_inches='tight')
+            img.seek(0)
+            plot_url_admin = base64.b64encode(img.getvalue()).decode()
         else:
-            ax1.scatter(x=newaxis1[:,0], y=newaxis1[:,1], c=newaxis1[:,2], cmap='PRGn_r', s=s)
-            ax1.scatter(x=newaxis1[0,0], y=newaxis1[0,1], linewidth=1, facecolors='black', s=s)
-        
-        ax1.axvline(c=[1.0, 0.5, 0.25], lw=2)
-        ax1.axhline(c=[1.0, 0.5, 0.25], lw=2)
-        ax1.set_title('Posterior map')
-        ax1.axis(faxis);
-        ax1.set_yticks(ftick)
-        ax1.set_xticks(ftick)
-
-        ax2.scatter(x=newaxis1[:,0], y=newaxis1[:,1], linewidth=0.3, facecolors='none', edgecolors='black', s=s)
-        ax2.scatter(x=newaxis1[0,0], y=newaxis1[0,1], linewidth=0.3, facecolors='black', s=s)
-        ax2.set_title('Grid map')
-        ax2.axvline(c=[1.0, 0.5, 0.25], lw=2)
-        ax2.axhline(c=[1.0, 0.5, 0.25], lw=2)
-        ax2.axis(faxis);
-        ax2.set_xticks(ftick)
-        ax2.set_yticks([])
-
-        img = io.BytesIO()
-        fig.savefig(img, format='png', bbox_inches='tight')
-        img.seek(0)
-        plot_url_admin = base64.b64encode(img.getvalue()).decode()
+            plot_url_admin = None
         
         ################ 5 PANEL VIEW ################
         if five:
@@ -656,6 +673,9 @@ def plot_fig():
 
         for char in '[] ':
             cidx = str(cidx).replace(char,'')
+
+        # try: plt.close()
+        # except: pass
 
         if trial <= hit:
             # pushing current data for following request (i.e. pushing N, requesting N-1 to remain current)

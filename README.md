@@ -5,6 +5,10 @@ https://inducedbias.herokuapp.com/
 
 <!-- TODO: -->
 
+01/08/21 <br>
+- [ ] debug: check for memory leakage
+- [ ] connect to heroku postgres for database management
+
 12/23/20 <br>
 - [x] add "catch" trials (only sampled within the unit circle; interspersed throughout the test)
 - [x] add practice trials at the end of the tutorials (currently 5 trials)
