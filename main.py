@@ -37,11 +37,16 @@ import pickle
 
 # instantiation
 app = Flask(__name__)
-# SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://bbbncqserzgkzt:2b8b2ddbad349434fcf0c7ee099006da0339a0bc40ab2e6a3046874c7f5a67a2@ec2-3-213-106-122.compute-1.amazonaws.com:5432/dedpmarqknvaso'
+SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://bbbncqserzgkzt:2b8b2ddbad349434fcf0c7ee099006da0339a0bc40ab2e6a3046874c7f5a67a2@ec2-3-213-106-122.compute-1.amazonaws.com:5432/dedpmarqknvaso'
 # 'DATABASE_URL' = 'sqlite:///test.db'
 # app.config['DATABASE_URL'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
+# You can't use sqlite on Heroku. That's because it stores the db as a file, but the filesystem is ephemeral and not shared between dynos. 
+# heroku run spins up a new dyno which only lasts for the duration of the command. 
+# So it creates the db locally, and then immediately destroys everything including the new db.
+# https://stackoverflow.com/questions/36224812/flask-migrate-doesnt-create-database-in-heroku
+
 
 class generate:
    
