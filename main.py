@@ -38,7 +38,7 @@ import pickle
 # instantiation
 app = Flask(__name__)
 SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://bbbncqserzgkzt:2b8b2ddbad349434fcf0c7ee099006da0339a0bc40ab2e6a3046874c7f5a67a2@ec2-3-213-106-122.compute-1.amazonaws.com:5432/dedpmarqknvaso'
 # 'DATABASE_URL' = 'sqlite:///test.db'
 # app.config['DATABASE_URL'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
