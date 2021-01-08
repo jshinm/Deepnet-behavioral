@@ -6,8 +6,8 @@ https://inducedbias.herokuapp.com/
 <!-- TODO: -->
 
 01/08/21 <br>
-- [ ] debug: check for memory leakage
-- [ ] connect to heroku postgres for database management
+- [x] debug: check for memory leakage (switched to "agg" backend for matplotlib)
+- [x] connect to heroku postgres for database management (sqlite for local, postgres for production)
 
 12/23/20 <br>
 - [x] add "catch" trials (only sampled within the unit circle; interspersed throughout the test)
