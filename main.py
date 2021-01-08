@@ -23,6 +23,7 @@ matplotlib.use('agg')
 # and that causes unexpected behaviour. The plain "agg" backend does not connect to the GUI at all.
 # this allows plt.close()
 # https://stackoverflow.com/questions/51188461/using-pyplot-close-crashes-the-flask-app
+
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 from matplotlib.patches import Circle
