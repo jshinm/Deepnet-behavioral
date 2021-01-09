@@ -1,7 +1,7 @@
 ##########################################################################
 #DESC: Flask-based website created for inductive bias behavioral experiment
 #      Inquires probabilistic confidence of users on different simulation datasets
-#DATE: 01/02/2021
+#DATE: 01/08/2021
 #NAME: Jong M. Shin
 ##########################################################################
 
@@ -36,7 +36,8 @@ import pickle
 
 # instantiation
 app = Flask(__name__)
-DATABASE_URL = 'postgres://bbbncqserzgkzt:2b8b2ddbad349434fcf0c7ee099006da0339a0bc40ab2e6a3046874c7f5a67a2@ec2-3-213-106-122.compute-1.amazonaws.com:5432/dedpmarqknvaso'
+DATABASE_URL = os.environ.get('DATABASE_URL')
+# DATABASE_URL = 'postgres://bbbncqserzgkzt:2b8b2ddbad349434fcf0c7ee099006da0339a0bc40ab2e6a3046874c7f5a67a2@ec2-3-213-106-122.compute-1.amazonaws.com:5432/dedpmarqknvaso'
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 # app.config['DATABASE_URL'] = 'sqlite:///test.db' # for local database
 db = SQLAlchemy(app)
