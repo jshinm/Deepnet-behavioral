@@ -154,7 +154,7 @@ class generate:
         
         return X[1:], Y.astype(int)
 
-    def generate_spirals(N, K=5, noise = 0.5, acorn = None, density=0.3, rng=1):
+    def generate_spirals(N, K=2, noise = 0.5, acorn = None, density=0.01, rng=1):
 
         #N number of poinst per class
         #K number of classes
@@ -165,10 +165,11 @@ class generate:
         if K == 2:
             turns = 2
         
-        mvt = np.random.multinomial(N, 1/K * np.ones(K))
+        # mvt = np.random.multinomial(N, 1/K * np.ones(K))
         
         if K == 2:
-            r = np.random.uniform(0, rng, size=size)
+            # r = np.random.uniform(0, rng, size=size) #switched to static sampling to prevent contraction
+            r = np.linspace(0, rng, size)
             r = np.sort(r)
             t = np.linspace(0,  np.pi * 4 * rng * turns/K, size) + noise * np.random.normal(0, density, size)
             dx = r * np.cos(t)
@@ -193,9 +194,6 @@ class generate:
             return sample#[:,0], sample[:,1]
 
         X = generate_mask(l=l, r=r, h=h)
-
-        # l=-1
-        # r=1
 
         z = np.zeros(len(X),dtype=float) + 0.5
 
@@ -316,7 +314,7 @@ def main():
     init_real = 2
     mtype = 0
     x = 0
-    sampleN = 150 #sampleN changed after the range increase from r=2 to r=3
+    sampleN = 100 #sampleN changed after the range increase from r=2 to r=3
 
     try: t = int(request.form['t'])
     except: t = 0
@@ -466,8 +464,8 @@ def plot_fig():
             ax.scatter(abs(testY-1)*testX[:,0], abs(testY-1)*testX[:,1], linewidth=1, facecolors='none', edgecolors='purple', s=30)
             ax.scatter(blckX[0],blckX[1], linewidth=1, facecolors='black', s=100)
 
-            ax.axvline(c=[1.0, 0.5, 0.25], lw=2)
-            ax.axhline(c=[1.0, 0.5, 0.25], lw=2)
+            ax.axvline(c=[1.0, 0.5, 0.25], lw=2, alpha=0.5)
+            ax.axhline(c=[1.0, 0.5, 0.25], lw=2, alpha=0.5)
             ax.axis([-2,2,-2,2]);
             ax.set_xticks([])
             ax.set_yticks([])
@@ -506,7 +504,7 @@ def plot_fig():
             tempX, tempY, tempC = generate.true_Uxor(l=-rng, r=rng, h=h)
 
         elif pick == 4: #SPIRAL
-            X, Y = generate.generate_spirals(n, 2, noise=1.0, rng=1) #noise increased from 1.0 to 1.8 on 01/28/2021
+            X, Y = generate.generate_spirals(n, 2, noise=1, rng=1, density=0.3) #noise increased from 1.0 to 1.8 on 01/28/2021
             # tempX, tempY, tempC = generate.true_xor(h=h, rotate=False, sig=0.25)
 
             with open('static/clf/spiral.pickle', 'rb') as f:
@@ -525,15 +523,19 @@ def plot_fig():
         fig, ax = plt.subplots()
 
         X1 = newaxis[newaxis[:,2]==0]
-        ax.scatter(x=X1[:,0], y=X1[:,1], linewidth=1, facecolors='none', edgecolors='green', s=30)
+        ax.scatter(x=X1[:,0], y=X1[:,1], linewidth=1, facecolors='none', edgecolors='green', s=80)
         X1 = newaxis[newaxis[:,2]==1]
-        ax.scatter(x=X1[:,0], y=X1[:,1], linewidth=1, facecolors='none', edgecolors='purple', s=30)
+        ax.scatter(x=X1[:,0], y=X1[:,1], linewidth=1, facecolors='none', edgecolors='purple', s=80)
 
         ax.scatter(x=newaxis1[0,0], y=newaxis1[0,1], linewidth=1, facecolors='black', s=100)
-        # ax.scatter(x=rng, y=rng, linewidth=1, facecolors='black', s=100) #testing edge point
+        
+        # ax.scatter(x=newaxis1[np.where(abs(newaxis1[:,0]) <= 1)[0][0],0], 
+        #             y=newaxis1[np.where(abs(newaxis1[:,1]) <= 1)[0][0],1]
+        #             , linewidth=1, facecolors='red', s=100) #testing inner samples
+        # ax.scatter(x=rng, y=rng, linewidth=1, facecolors='black', s=100) #testing edge samples
         # ax.scatter(X_test[:,0],X_test[:,1],c=Y_test, cmap='PRGn_r', alpha=0.2) #true posterior
-        ax.axvline(c=[1.0, 0.5, 0.25], lw=2)
-        ax.axhline(c=[1.0, 0.5, 0.25], lw=2)
+        ax.axvline(c=[1.0, 0.5, 0.25], lw=2, alpha=0.5)
+        ax.axhline(c=[1.0, 0.5, 0.25], lw=2, alpha=0.5)
         # ax.set_title(str(X_test) + str(y_test))
         ax.axis([-rng-tip,rng+tip,-rng-tip,rng+tip]);
         ax.set_xticks([])

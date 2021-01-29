@@ -5,6 +5,13 @@ https://inducedbias.herokuapp.com/
 
 <!-- TODO: -->
 
+01/29/21 <br>
+- [x] debug: sprial contracting issue
+- [x] sample size reduced to 100
+- [x] increase range from (-2,2) to (-3,+3)
+- [x] number of trial increased from 50 to 100
+- [x] minor adjustments to figure styling
+
 01/08/21 <br>
 - [x] debug: check for memory leakage (switched to "agg" backend for matplotlib)
 - [x] connect to heroku postgres for database management (sqlite for local, postgres for production)
@@ -17,7 +24,6 @@ https://inducedbias.herokuapp.com/
 - [x] spiral parameters modified (reduced noise 2.5 -> 1.0)
 - [x] add feedback panel at the end of the experiment
 - [ ] <strike>populate exactly the equal parts of each pattern</strike>
-
 
 12/17/20 <br>
 - [x] modify tutorial to emphasize likelihood judgement
