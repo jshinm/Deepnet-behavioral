@@ -316,7 +316,7 @@ def main():
     init_real = 2
     mtype = 0
     x = 0
-    sampleN = 300
+    sampleN = 150 #sampleN changed after the range increase from r=2 to r=3
 
     try: t = int(request.form['t'])
     except: t = 0
@@ -377,7 +377,7 @@ def plot_fig():
 
         # requesting data => n-1 acquisition
         try: hit = int(request.form['hit'])
-        except: hit = 50
+        except: hit = 100 #hit changed from 50 to 100 on 1/28/2021
 
         real = float(request.form['real'])
         mtype = int(request.form['mtype'])
@@ -399,7 +399,8 @@ def plot_fig():
 
         # control parameters
         h = 0.1
-        rng = 1.98
+        rng = 3
+        tip = 0.1 #expanding window to cover the edge points
         five = False #activates five panel view
 
         #catch trial score
@@ -505,7 +506,7 @@ def plot_fig():
             tempX, tempY, tempC = generate.true_Uxor(l=-rng, r=rng, h=h)
 
         elif pick == 4: #SPIRAL
-            X, Y = generate.generate_spirals(n, 2, noise=1, rng=1) #noise reduced from 2.5 to 1.0 on 12/23/2020
+            X, Y = generate.generate_spirals(n, 2, noise=1.0, rng=1) #noise increased from 1.0 to 1.8 on 01/28/2021
             # tempX, tempY, tempC = generate.true_xor(h=h, rotate=False, sig=0.25)
 
             with open('static/clf/spiral.pickle', 'rb') as f:
@@ -529,10 +530,12 @@ def plot_fig():
         ax.scatter(x=X1[:,0], y=X1[:,1], linewidth=1, facecolors='none', edgecolors='purple', s=30)
 
         ax.scatter(x=newaxis1[0,0], y=newaxis1[0,1], linewidth=1, facecolors='black', s=100)
+        # ax.scatter(x=rng, y=rng, linewidth=1, facecolors='black', s=100) #testing edge point
+        # ax.scatter(X_test[:,0],X_test[:,1],c=Y_test, cmap='PRGn_r', alpha=0.2) #true posterior
         ax.axvline(c=[1.0, 0.5, 0.25], lw=2)
         ax.axhline(c=[1.0, 0.5, 0.25], lw=2)
         # ax.set_title(str(X_test) + str(y_test))
-        ax.axis([-2,2,-2,2]);
+        ax.axis([-rng-tip,rng+tip,-rng-tip,rng+tip]);
         ax.set_xticks([])
         ax.set_yticks([])
   
