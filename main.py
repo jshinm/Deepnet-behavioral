@@ -790,16 +790,19 @@ def downloadFile():
     engine = create_engine(DATABASE_URL).connect()
     # engine = create_engine('sqlite:///test.db', echo=True).connect() 
 
-    with pd.ExcelWriter(path[0], engine='openpyxl') as writer:    
-        output = pd.read_sql_table('testdb', con=engine)
-        output.to_excel(writer, index=False, sheet_name='DB')
+    dswitch = int(request.form['dswitch'])
 
-        output = pd.read_sql_table('Cmtdb', con=engine)
-        output.to_excel(writer, index=False, sheet_name='COMMENTS')
+    if dswitch == 0:
+        with pd.ExcelWriter(path[dswitch], engine='openpyxl') as writer:    
+            output = pd.read_sql_table('testdb', con=engine)
+            output.to_excel(writer, index=False, sheet_name='DB')
 
-        writer.save()
+            output = pd.read_sql_table('Cmtdb', con=engine)
+            output.to_excel(writer, index=False, sheet_name='COMMENTS')
+
+            writer.save()
     
-    return send_file(path[0], as_attachment=True)
+    return send_file(path[dswitch], as_attachment=True)
 
 @app.route('/empty')
 def emptydb():

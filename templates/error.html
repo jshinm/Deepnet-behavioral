@@ -42,7 +42,15 @@
 </form>
 
 <form action="/download" enctype="multipart/form-data" method="post">
-    <a href="{{ url_for('downloadFile', filename='test.db') }}"><input type="submit" value="Download"></a>
+    <a href="{{ url_for('downloadFile', filename='test.db') }}">
+        <input type="hidden" value="0" name="dswitch">
+        <input type="submit" value="Excel"></a>
+</form>
+
+<form action="/download" enctype="multipart/form-data" method="post">
+    <a href="{{ url_for('downloadFile', filename='test.db') }}">
+        <input type="hidden" value="1" name="dswitch">
+        <input type="submit" value="Download"></a>
 </form>
 
 <form action="/empty">
