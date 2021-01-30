@@ -10,6 +10,7 @@ https://inducedbias.herokuapp.com/
 - [x] sample size reduced to 100
 - [x] increase range from (-2,2) to (-3,+3)
 - [x] number of trial increased from 50 to 100
+- [x] add functionality to download sql db
 - [x] minor adjustments to figure styling
 
 01/08/21 <br>
