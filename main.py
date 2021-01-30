@@ -329,7 +329,7 @@ def main():
 @app.route('/read')
 def read():
     tasks = Todo.query.order_by(Todo.user).all()
-    return render_template('error.html', tasks=tasks[-1000:])
+    return render_template('error.html', tasks=tasks)
 
 @app.route('/readbyID')
 def readbyID():
@@ -339,7 +339,7 @@ def readbyID():
 @app.route('/readbyDate')
 def readbyDate():
     tasks = Todo.query.order_by(Todo.date_created.desc()).all()    
-    return render_template('error.html', tasks=tasks)
+    return render_template('error.html', tasks=tasks[:1000])
 
 @app.route('/tutorial', methods=['POST', 'GET'])
 def tutorial():
