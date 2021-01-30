@@ -334,7 +334,7 @@ def read():
 @app.route('/readbyID')
 def readbyID():
     tasks = Todo.query.order_by(Todo.id.desc()).all()    
-    return render_template('error.html', tasks=tasks[-1000:-1])
+    return render_template('error.html', tasks=tasks[:1000])
 
 @app.route('/readbyDate')
 def readbyDate():
