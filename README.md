@@ -6,7 +6,7 @@ https://inducedbias.herokuapp.com/
 <!-- TODO: -->
 
 02/04/21 <br>
-- [x] add codes for analysis pipeline
+- [x] add codes for analytic pipeline
 
 01/29/21 <br>
 - [x] debug: sprial contracting issue
