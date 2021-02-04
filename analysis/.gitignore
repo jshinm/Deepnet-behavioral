@@ -1,0 +1,7 @@
+*.xlsx
+*.pickle
+*.csv
+/pilot_dat
+/pilot_dat
+/MT_backup
+/dat

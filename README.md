@@ -5,6 +5,9 @@ https://inducedbias.herokuapp.com/
 
 <!-- TODO: -->
 
+02/04/21 <br>
+- [x] add codes for analysis pipeline
+
 01/29/21 <br>
 - [x] debug: sprial contracting issue
 - [x] sample size reduced to 100
