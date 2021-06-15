@@ -533,7 +533,7 @@ def plot_fig():
         #             y=newaxis1[np.where(abs(newaxis1[:,1]) <= 1)[0][0],1]
         #             , linewidth=1, facecolors='red', s=100) #testing inner samples
         # ax.scatter(x=rng, y=rng, linewidth=1, facecolors='black', s=100) #testing edge samples
-        # ax.scatter(X_test[:,0],X_test[:,1],c=Y_test, cmap='PRGn_r', alpha=0.2) #true posterior
+        ax.scatter(X_test[:,0],X_test[:,1],c=Y_test, cmap='PRGn_r', alpha=0.2) #true posterior
         ax.axvline(c=[1.0, 0.5, 0.25], lw=2, alpha=0.5)
         ax.axhline(c=[1.0, 0.5, 0.25], lw=2, alpha=0.5)
         # ax.set_title(str(X_test) + str(y_test))
