@@ -1,9 +1,23 @@
 # Deepnet-behavioral
 Online behavioral experiment for deepnet paper powered by Flask
 
-https://ib-behavior.herokuapp.com/
+<strike>https://ib-behavior.herokuapp.com/</strike>
+
+The above website no longer available as heroku stopped free services as of Nov 28, 2022
 
 <!-- TODO: -->
+
+## Installation
+```
+pip install -r requirements.txt
+```
+
+## Running Local Server
+```
+python main.py
+```
+
+## Logs
 
 02/04/21 <br>
 - [x] add codes for analytic pipeline
