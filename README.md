@@ -1,7 +1,7 @@
 # Deepnet-behavioral
 Online behavioral experiment for deepnet paper powered by Flask
 
-https://inducedbias.herokuapp.com/
+https://ib-behavior.herokuapp.com/
 
 <!-- TODO: -->
 
